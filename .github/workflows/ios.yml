@@ -5,6 +5,9 @@ on:
   push:
     branches: [ main, master ]
 
+permissions:
+  contents: write
+
 jobs:
   build-ios:
     name: Build unsigned IPA
@@ -48,3 +51,15 @@ jobs:
           name: Runner-ipa
           path: build/ios/iphoneos/Runner.ipa
           retention-days: 30
+
+      # 同时发布到 Release，公开可下载（Artifacts 需要登录）
+      - name: Publish to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: iOS Build ${{ github.run_number }}
+          body: |
+            自动构建的未签名 IPA，用 Sideloadly 安装。
+          files: build/ios/iphoneos/Runner.ipa
+          draft: false
+          prerelease: false
