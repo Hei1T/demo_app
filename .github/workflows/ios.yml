@@ -39,7 +39,7 @@ jobs:
         working-directory: apps/app
         run: |
           flutter build ios --release --no-codesign \
-            --dart-define=API_BASE=https://nfc.example.com
+            --dart-define=API_BASE=http://192.168.1.2:3000
 
       - name: Package unsigned IPA
         working-directory: apps/app
