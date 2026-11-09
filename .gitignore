@@ -1,0 +1,46 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+dist/
+build/
+apps/app/build/
+apps/app/.dart_tool/
+apps/admin/dist/
+apps/api/dist/
+
+# Flutter
+apps/app/.flutter-plugins
+apps/app/.flutter-plugins-dependencies
+apps/app/ios/Pods/
+apps/app/ios/.symlinks/
+apps/app/ios/Flutter/Flutter.framework
+apps/app/ios/Flutter/Flutter.podspec
+apps/app/ios/Flutter/ephemeral/
+apps/app/android/.gradle/
+apps/app/android/local.properties
+apps/app/**/GeneratedPluginRegistrant.*
+
+# 数据库（绝对不能提交）
+.pgdata/
+*.log
+
+# 环境变量（含密钥）
+.env
+apps/api/.env
+
+# 系统
+.DS_Store
+Thumbs.db
+*.swp
+
+# 编辑器
+.idea/
+.vscode/
+*.iml
+
+# 临时
+*.tmp
+api.out.log
+api.err.log

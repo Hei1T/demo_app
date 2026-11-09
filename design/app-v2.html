@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFC 名片 App — 布局调整版</title>
+<style>
+:root{
+  --ground:#080807; --surface:#121110; --raised:#1c1a17; --line:#201d19;
+  --text:#f5f2ec; --muted:#9a938a; --faint:#6b655d;
+  --gold:#e3c08d; --gold-deep:#b8894a;
+  --sans:-apple-system,"SF Pro Display","SF Pro Text","PingFang SC","Helvetica Neue",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050504;color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding:44px 32px 90px}
+.sheet-head{max-width:1580px;margin:0 auto 40px}
+.sheet-head h1{font-size:24px;font-weight:200;letter-spacing:0.14em;margin-bottom:10px}
+.sheet-head p{color:var(--faint);font-size:12px;letter-spacing:0.06em}
+.row{display:flex;gap:30px;max-width:1580px;margin:0 auto;flex-wrap:wrap}
+.col{flex:1 1 300px;max-width:390px}
+.col-label{font-size:11px;color:var(--faint);margin-bottom:14px;letter-spacing:0.16em}
+.phone{width:100%;height:844px;background:var(--ground);border-radius:40px;overflow:hidden;position:relative;display:flex;flex-direction:column;outline:1px solid #141210;box-shadow:0 40px 80px -40px #000}
+.status{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:11.5px;color:var(--muted);flex:none;letter-spacing:0.03em}
+.status b{font-weight:500;color:var(--gold);letter-spacing:0.18em;font-size:9.5px}
+.body{flex:1;overflow:hidden;padding:0 24px}
+.num{font-variant-numeric:tabular-nums}
+
+.btn{height:54px;border-radius:999px;background:var(--gold);color:#14100a;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;letter-spacing:0.14em;width:100%;border:none}
+.btn-ghost{height:54px;border-radius:999px;background:transparent;color:var(--text);display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:0.14em;width:100%;border:1px solid #2a2620}
+.input{height:54px;background:transparent;border-bottom:1px solid #2a2620;display:flex;align-items:center;font-size:15px;color:var(--faint);width:100%}
+.field-label{font-size:10.5px;color:var(--faint);margin-bottom:4px;letter-spacing:0.18em}
+
+.top{padding:16px 0 20px}
+.top .eyebrow{font-size:10.5px;color:var(--gold);letter-spacing:0.24em;margin-bottom:14px}
+.top h2{font-size:30px;font-weight:200;letter-spacing:0.10em;line-height:1.35}
+.top .sub{font-size:12.5px;color:var(--faint);margin-top:10px;letter-spacing:0.04em}
+
+/* 5 项导航 */
+.nav{flex:none;height:86px;background:#0b0a09;display:flex;align-items:flex-start;padding:14px 6px 0;border-top:1px solid #17150f;position:relative}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;color:#5a544c;letter-spacing:0.12em;padding-top:5px}
+.nav-item.on{color:var(--gold)}
+.nav-dot{width:3px;height:3px;border-radius:50%;background:var(--gold)}
+.nav-item:not(.on) .nav-dot{background:transparent}
+.nav-plus{
+  flex:1;display:flex;justify-content:center;position:relative;
+}
+.nav-plus-btn{
+  position:absolute;top:-24px;width:56px;height:56px;border-radius:50%;
+  background:var(--gold);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 30px -8px rgba(227,192,141,.45);
+}
+.nav-plus-btn span{font-size:26px;font-weight:200;color:#14100a;line-height:1;margin-top:-2px}
+.nav-plus-lb{font-size:10px;color:var(--gold);letter-spacing:0.12em;margin-top:38px}
+
+/* 主卡 */
+.maincard{border-radius:20px;padding:22px;position:relative;overflow:hidden;aspect-ratio:1.55;display:flex;flex-direction:column;justify-content:space-between}
+.maincard .shine{position:absolute;inset:0;background:radial-gradient(120% 90% at 82% -12%,rgba(255,255,255,.14),transparent 58%)}
+.mc-name{font-size:22px;font-weight:300;letter-spacing:0.12em}
+.mc-role{font-size:10.5px;letter-spacing:0.14em;opacity:.72;margin-top:6px}
+.mc-code{font-size:9px;letter-spacing:0.18em;opacity:.5;font-variant-numeric:tabular-nums}
+.mc-stat{display:flex;gap:26px}
+.mc-v{font-size:24px;font-weight:200;font-variant-numeric:tabular-nums;line-height:1}
+.mc-k{font-size:9px;letter-spacing:0.16em;opacity:.5;margin-top:6px}
+
+/* 网格 */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gcard{aspect-ratio:1.35;border-radius:14px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.gname{font-size:11.5px;font-weight:400;letter-spacing:0.06em}
+.gmeta{font-size:8.5px;letter-spacing:0.1em;opacity:.55;margin-top:3px}
+.gnum{font-size:16px;font-weight:200;font-variant-numeric:tabular-nums}
+.gadd{aspect-ratio:1.35;border-radius:14px;border:1px dashed #2a2620;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:200;color:var(--faint)}
+
+/* 动态流 */
+.feed-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #141210}
+.feed-item:last-child{border-bottom:none}
+.feed-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:7px;flex:none}
+.feed-t{font-size:12.5px;color:var(--muted);letter-spacing:0.02em;line-height:1.5}
+.feed-t b{color:var(--text);font-weight:400}
+.feed-time{font-size:10px;color:#4a453e;letter-spacing:0.1em;margin-top:3px}
+
+/* 区块标题 */
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:26px 0 14px}
+.sec-t{font-size:12px;font-weight:500;letter-spacing:0.18em}
+.sec-a{font-size:10.5px;color:var(--faint);letter-spacing:0.1em}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kpi{background:var(--surface);border-radius:18px;padding:16px 18px}
+.kpi .k{font-size:10px;color:var(--faint);letter-spacing:0.18em}
+.kpi .v{font-size:28px;font-weight:200;margin-top:8px;font-variant-numeric:tabular-nums}
+
+/* 排行 */
+.rank{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #141210}
+.rank:last-child{border-bottom:none}
+.rk-n{width:16px;font-size:10.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.rk-bar{flex:1;height:2px;background:#241f19;position:relative}
+.rk-fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--gold-deep),var(--gold))}
+.rk-name{font-size:12px;letter-spacing:0.04em;width:78px}
+.rk-v{font-size:11.5px;color:var(--faint);width:32px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* 登录 */
+.brand-wrap{height:100%;display:flex;flex-direction:column;justify-content:center;padding-bottom:20px}
+.brand-mark{width:50px;height:50px;border:1px solid var(--gold-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:36px}
+.brand-mark span{font-size:14px;color:var(--gold);letter-spacing:0.2em;font-weight:500}
+.brand-title{font-size:32px;font-weight:200;letter-spacing:0.14em;line-height:1.5}
+.brand-title em{font-style:normal;color:var(--gold)}
+
+/* 写卡预览 */
+.preview-card{border-radius:16px;padding:16px;position:relative;overflow:hidden;aspect-ratio:2.1;display:flex;flex-direction:column;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<div class="sheet-head">
+  <h1>布 局 调 整 版</h1>
+  <p>主卡 + 网格 + 动态流 · 5 项导航中间凸起 · 数据双层 · 登录瘦身</p>
+</div>
+
+<div class="row">
+
+<!-- ① 登录 -->
+<div class="col">
+  <div class="col-label">① 登 录（瘦身）</div>
+  <div class="phone">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div class="brand-wrap">
+        <div class="brand-mark"><span>NFC</span></div>
+        <div class="brand-title">每一张名片<br>都值得<em>被记住</em></div>
+
+        <div style="margin-top:56px">
+          <div class="field-label">邮 箱</div>
+          <div class="input">you@company.com</div>
+          <div class="field-label" style="margin-top:26px">密 码</div>
+          <div class="input">••••••••••</div>
+          <div style="margin-top:40px"><div class="btn">登 录</div></div>
+          <div style="text-align:center;margin-top:24px;font-size:12px;color:var(--faint);letter-spacing:0.08em">
+            还没有账号 · <span style="color:var(--gold)">创 建 一 个</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ② 首页 -->
+<div class="col">
+  <div class="col-label">② 首 页（主卡 + 网格 + 动态）</div>
+  <div class="phone">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div class="top">
+        <div class="eyebrow">十 一 月 · 第 八 日</div>
+        <h2>晚上好，叶白</h2>
+        <div class="sub">今天 12 个人认识了你</div>
+      </div>
+
+      <!-- 主卡 -->
+      <div class="maincard" style="background:linear-gradient(145deg,#1d1810,#0c0a07)">
+        <div class="shine"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative">
+          <div>
+            <div class="mc-name" style="color:#f4e8d1">叶白</div>
+            <div class="mc-role" style="color:#e3c08d">咖啡师 · 白夜咖啡</div>
+          </div>
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f0d6a8,#c49a52);display:flex;align-items:center;justify-content:center;font-size:15px;color:#231a0c">叶</div>
+        </div>
+        <div style="position:relative">
+          <div class="mc-stat">
+            <div><div class="mc-v" style="color:#f4e8d1">109</div><div class="mc-k" style="color:#c9b18a">打 开</div></div>
+            <div><div class="mc-v" style="color:#f4e8d1">78</div><div class="mc-k" style="color:#c9b18a">访 客</div></div>
+            <div><div class="mc-v" style="color:#f4e8d1">75%</div><div class="mc-k" style="color:#c9b18a">点 击 率</div></div>
+          </div>
+          <div class="mc-code" style="color:#8a7a62;margin-top:14px">6RZ2BJPW9F · 黑金</div>
+        </div>
+      </div>
+
+      <!-- 其他名片网格 -->
+      <div class="sec"><div class="sec-t">其 他 名 片</div><div class="sec-a">2 张 ›</div></div>
+      <div class="grid">
+        <div class="gcard" style="background:linear-gradient(150deg,#f8f6f1,#e8e4db)">
+          <div><div class="gname" style="color:#1a1815">白夜咖啡</div><div class="gmeta" style="color:#8a8278">极简白</div></div>
+          <div class="gnum" style="color:#1a1815">62</div>
+        </div>
+        <div class="gcard" style="background:linear-gradient(150deg,#0d131c,#070a0f)">
+          <div><div class="gname" style="color:#dbe7f2">夜航 AI</div><div class="gmeta" style="color:#7f9ab5">深海</div></div>
+          <div class="gnum" style="color:#dbe7f2">38</div>
+        </div>
+        <div class="gadd">＋</div>
+      </div>
+
+      <!-- 动态 -->
+      <div class="sec"><div class="sec-t">最 近 动 态</div><div class="sec-a">全 部 ›</div></div>
+      <div class="feed-item">
+        <div class="feed-dot"></div>
+        <div><div class="feed-t"><b>一位杭州的朋友</b> 看了你的黑金名片</div><div class="feed-time">3 分 钟 前</div></div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-dot"></div>
+        <div><div class="feed-t"><b>上海的访客</b> 拨了你的电话</div><div class="feed-time">8 分 钟 前</div></div>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="nav-item on"><span>名片</span><span class="nav-dot"></span></div>
+      <div class="nav-item"><span>数据</span><span class="nav-dot"></span></div>
+      <div class="nav-plus"><div class="nav-plus-btn"><span>＋</span></div><div class="nav-plus-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span><span class="nav-dot"></span></div>
+      <div class="nav-item"><span>我的</span><span class="nav-dot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 数据（全部汇总） -->
+<div class="col">
+  <div class="col-label">③ 数 据（全部汇总）</div>
+  <div class="phone">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div class="top">
+        <div class="eyebrow">近 三 十 天</div>
+        <h2>所有名片</h2>
+        <div class="sub">3 张名片 · 209 次打开</div>
+      </div>
+
+      <div style="display:flex;align-items:flex-end;gap:36px;padding:4px 0 26px">
+        <div><div style="font-size:56px;font-weight:200;line-height:1;font-variant-numeric:tabular-nums">209</div><div style="font-size:10px;color:var(--faint);letter-spacing:0.18em;margin-top:10px">总 打 开</div></div>
+        <div style="padding-bottom:4px"><div style="font-size:24px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums">156</div><div style="font-size:10px;color:var(--faint);letter-spacing:0.18em;margin-top:10px">独 立 访 客</div></div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="k">今 日 打 开</div><div class="v">12</div></div>
+        <div class="kpi"><div class="k">点 击 率</div><div class="v">75<span style="font-size:14px">%</span></div></div>
+      </div>
+
+      <div style="margin-top:26px">
+        <div class="sec" style="margin-top:0"><div class="sec-t">打 开 趋 势</div><div class="sec-a">30 天</div></div>
+        <svg width="100%" height="104" viewBox="0 0 320 104" preserveAspectRatio="none">
+          <defs><linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e3c08d" stop-opacity="0.22"/><stop offset="100%" stop-color="#e3c08d" stop-opacity="0"/></linearGradient></defs>
+          <path d="M0,78 L22,70 L44,82 L66,60 L88,66 L110,48 L132,56 L154,34 L176,42 L198,26 L220,38 L242,20 L264,30 L286,14 L308,22 L320,18 L320,104 L0,104 Z" fill="url(#g2)"/>
+          <path d="M0,78 L22,70 L44,82 L66,60 L88,66 L110,48 L132,56 L154,34 L176,42 L198,26 L220,38 L242,20 L264,30 L286,14 L308,22 L320,18" fill="none" stroke="#e3c08d" stroke-width="1.6"/>
+        </svg>
+      </div>
+
+      <div class="sec"><div class="sec-t">名 片 排 行</div><div class="sec-a">按 打 开 量</div></div>
+      <div class="rank"><div class="rk-n">1</div><div class="rk-name">叶白</div><div class="rk-bar"><div class="rk-fill" style="width:100%"></div></div><div class="rk-v">109</div></div>
+      <div class="rank"><div class="rk-n">2</div><div class="rk-name">白夜咖啡</div><div class="rk-bar"><div class="rk-fill" style="width:57%"></div></div><div class="rk-v">62</div></div>
+      <div class="rank"><div class="rk-n">3</div><div class="rk-name">夜航 AI</div><div class="rk-bar"><div class="rk-fill" style="width:35%"></div></div><div class="rk-v">38</div></div>
+    </div>
+    <div class="nav">
+      <div class="nav-item"><span>名片</span><span class="nav-dot"></span></div>
+      <div class="nav-item on"><span>数据</span><span class="nav-dot"></span></div>
+      <div class="nav-plus"><div class="nav-plus-btn"><span>＋</span></div><div class="nav-plus-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span><span class="nav-dot"></span></div>
+      <div class="nav-item"><span>我的</span><span class="nav-dot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 单卡数据 -->
+<div class="col">
+  <div class="col-label">④ 单 卡 数 据（从排行点入）</div>
+  <div class="phone">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div class="top">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+          <div style="font-size:20px;color:var(--gold);font-weight:200">‹</div>
+          <h2 style="font-size:26px">叶白</h2>
+        </div>
+        <div class="sub">6RZ2BJPW9F · 黑金 · 近 30 天</div>
+      </div>
+
+      <div style="display:flex;align-items:flex-end;gap:34px;padding:0 0 24px">
+        <div><div style="font-size:52px;font-weight:200;line-height:1;font-variant-numeric:tabular-nums">109</div><div style="font-size:10px;color:var(--faint);letter-spacing:0.18em;margin-top:10px">打 开</div></div>
+        <div style="padding-bottom:4px"><div style="font-size:24px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums">78</div><div style="font-size:10px;color:var(--faint);letter-spacing:0.18em;margin-top:10px">访 客</div></div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="k">点 击 量</div><div class="v">82</div></div>
+        <div class="kpi"><div class="k">点 击 率</div><div class="v">75<span style="font-size:14px">%</span></div></div>
+      </div>
+
+      <div style="margin-top:26px">
+        <div class="sec" style="margin-top:0"><div class="sec-t">打 开 趋 势</div><div class="sec-a">30 天</div></div>
+        <svg width="100%" height="100" viewBox="0 0 320 100" preserveAspectRatio="none">
+          <path d="M0,74 L22,66 L44,78 L66,56 L88,62 L110,44 L132,52 L154,30 L176,38 L198,22 L220,34 L242,16 L264,26 L286,10 L308,18 L320,14 L320,100 L0,100 Z" fill="url(#g2)"/>
+          <path d="M0,74 L22,66 L44,78 L66,56 L88,62 L110,44 L132,52 L154,30 L176,38 L198,22 L220,34 L242,16 L264,26 L286,10 L308,18 L320,14" fill="none" stroke="#e3c08d" stroke-width="1.6"/>
+        </svg>
+      </div>
+
+      <div class="sec"><div class="sec-t">他 们 从 哪 里 来</div></div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:13px"><div style="width:48px;font-size:12.5px;color:var(--muted);letter-spacing:0.06em">杭州</div><div style="flex:1;height:2px;background:#241f19;position:relative"><div style="position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--gold-deep),var(--gold));width:100%"></div></div><div style="width:28px;text-align:right;font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums">42</div></div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:13px"><div style="width:48px;font-size:12.5px;color:var(--muted);letter-spacing:0.06em">上海</div><div style="flex:1;height:2px;background:#241f19;position:relative"><div style="position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--gold-deep),var(--gold));width:74%"></div></div><div style="width:28px;text-align:right;font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums">31</div></div>
+      <div style="display:flex;align-items:center;gap:14px"><div style="width:48px;font-size:12.5px;color:var(--muted);letter-spacing:0.06em">深圳</div><div style="flex:1;height:2px;background:#241f19;position:relative"><div style="position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--gold-deep),var(--gold));width:43%"></div></div><div style="width:28px;text-align:right;font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums">18</div></div>
+    </div>
+    <div class="nav">
+      <div class="nav-item"><span>名片</span><span class="nav-dot"></span></div>
+      <div class="nav-item on"><span>数据</span><span class="nav-dot"></span></div>
+      <div class="nav-plus"><div class="nav-plus-btn"><span>＋</span></div><div class="nav-plus-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span><span class="nav-dot"></span></div>
+      <div class="nav-item"><span>我的</span><span class="nav-dot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 写卡（加预览） -->
+<div class="col">
+  <div class="col-label">⑤ 写 卡（加卡片预览）</div>
+  <div class="phone">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div class="top">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+          <div style="font-size:20px;color:var(--gold);font-weight:200">‹</div>
+          <h2 style="font-size:26px">写入卡片</h2>
+        </div>
+        <div class="sub">选择要写入的名片</div>
+      </div>
+
+      <!-- 卡片预览 -->
+      <div class="preview-card" style="background:linear-gradient(145deg,#1d1810,#0c0a07)">
+        <div class="shine" style="position:absolute;inset:0;background:radial-gradient(120% 90% at 82% -12%,rgba(255,255,255,.14),transparent 58%)"></div>
+        <div style="display:flex;justify-content:space-between;position:relative">
+          <div><div style="font-size:16px;font-weight:300;letter-spacing:0.12em;color:#f4e8d1">叶白</div><div style="font-size:9px;letter-spacing:0.16em;color:#e3c08d;margin-top:4px">咖啡师 · 白夜咖啡</div></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f0d6a8,#c49a52);display:flex;align-items:center;justify-content:center;font-size:11px;color:#231a0c">叶</div>
+        </div>
+        <div style="font-size:8px;letter-spacing:0.2em;color:#8a7a62;position:relative">6RZ2BJPW9F · 黑金</div>
+      </div>
+
+      <div style="text-align:center;margin-top:26px">
+        <div style="font-size:17px;font-weight:300;letter-spacing:0.12em">请将卡片贴近手机</div>
+        <div style="font-size:11.5px;color:var(--faint);margin-top:8px;line-height:1.7;letter-spacing:0.04em">卡片贴住手机背面上方<br>听到轻响即完成写入</div>
+      </div>
+
+      <div style="margin-top:22px;background:var(--raised);border-radius:16px;padding:16px">
+        <div class="field-label">将 写 入 的 地 址</div>
+        <div style="font-size:12.5px;color:var(--gold);margin-top:8px;letter-spacing:0.04em">nfc.life/u/6RZ2BJPW9F</div>
+      </div>
+
+      <div style="margin-top:24px">
+        <div style="display:flex;gap:14px;margin-bottom:14px"><div style="font-size:10.5px;color:var(--gold);letter-spacing:0.16em;width:24px;padding-top:1px">壹</div><div style="font-size:12.5px;color:var(--muted);letter-spacing:0.02em">确认手机 NFC 已开启</div></div>
+        <div style="display:flex;gap:14px;margin-bottom:14px"><div style="font-size:10.5px;color:var(--gold);letter-spacing:0.16em;width:24px;padding-top:1px">贰</div><div style="font-size:12.5px;color:var(--muted);letter-spacing:0.02em">把卡片靠近手机背部上方</div></div>
+        <div style="display:flex;gap:14px"><div style="font-size:10.5px;color:var(--gold);letter-spacing:0.16em;width:24px;padding-top:1px">叁</div><div style="font-size:12.5px;color:var(--muted);letter-spacing:0.02em">保持不动，直到写入完成</div></div>
+      </div>
+
+      <div style="margin-top:26px"><div class="btn">开 始 写 入</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ 空状态 -->
+<div class="col">
+  <div class="col-label">⑥ 空 状 态（新用户）</div>
+  <div class="phone">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div class="top">
+        <div class="eyebrow">欢 迎</div>
+        <h2>你好，叶白</h2>
+        <div class="sub">从一张名片开始</div>
+      </div>
+
+      <div style="height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <div style="width:88px;height:88px;border-radius:50%;border:1px solid #2a2620;display:flex;align-items:center;justify-content:center;margin-bottom:28px">
+          <div style="width:44px;height:30px;border:1px solid #3a342c;border-radius:4px;position:relative">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 4px,#1e1a15 4px,#1e1a15 5px);border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="font-size:15px;font-weight:300;letter-spacing:0.12em;color:var(--muted)">还没有名片</div>
+        <div style="font-size:12px;color:var(--faint);margin-top:10px;letter-spacing:0.04em;text-align:center;line-height:1.7">
+          创建第一张名片<br>写进卡片里
+        </div>
+      </div>
+
+      <div class="btn">创 建 第 一 张 名 片</div>
+
+      <div style="text-align:center;margin-top:20px;font-size:11px;color:var(--faint);letter-spacing:0.08em">
+        还没有 NFC 卡片？<span style="color:var(--gold)">了解卡片 ›</span>
+      </div>
+    </div>
+    <div class="nav">
+      <div class="nav-item on"><span>名片</span><span class="nav-dot"></span></div>
+      <div class="nav-item"><span>数据</span><span class="nav-dot"></span></div>
+      <div class="nav-plus"><div class="nav-plus-btn"><span>＋</span></div><div class="nav-plus-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span><span class="nav-dot"></span></div>
+      <div class="nav-item"><span>我的</span><span class="nav-dot"></span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>配色方向对比</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050505;color:#fff;font-family:-apple-system,"SF Pro Display","PingFang SC",system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:44px 32px 90px}
+.sheet-head{max-width:1400px;margin:0 auto 40px}
+.sheet-head h1{font-size:22px;font-weight:200;letter-spacing:0.14em;margin-bottom:10px}
+.sheet-head p{color:#6b655d;font-size:12px;letter-spacing:0.06em}
+.row{display:flex;gap:34px;max-width:1400px;margin:0 auto;flex-wrap:wrap}
+.col{flex:1 1 300px;max-width:390px}
+.tone-label{font-size:12px;letter-spacing:0.16em;margin-bottom:6px}
+.tone-desc{font-size:11px;color:#6b655d;margin-bottom:16px;line-height:1.6;letter-spacing:0.02em}
+.phone{width:100%;height:820px;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;outline:1px solid rgba(255,255,255,.07)}
+.status{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:11px;flex:none;letter-spacing:0.06em}
+.status b{font-size:9px;letter-spacing:0.2em;font-weight:500}
+.body{flex:1;overflow:hidden;padding:0 24px}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:10px;letter-spacing:0.24em;margin-bottom:14px}
+h2.t{font-size:28px;font-weight:200;letter-spacing:0.10em;line-height:1.35}
+.sub{font-size:12px;margin-top:9px;letter-spacing:0.04em}
+.maincard{border-radius:20px;padding:22px;position:relative;overflow:hidden;aspect-ratio:1.55;display:flex;flex-direction:column;justify-content:space-between;margin-top:18px}
+.shine{position:absolute;inset:0;background:radial-gradient(120% 90% at 82% -12%,rgba(255,255,255,.10),transparent 58%)}
+.mc-name{font-size:21px;font-weight:300;letter-spacing:0.12em}
+.mc-role{font-size:10px;letter-spacing:0.16em;margin-top:6px}
+.mc-stat{display:flex;gap:26px}
+.mc-v{font-size:23px;font-weight:200;font-variant-numeric:tabular-nums;line-height:1}
+.mc-k{font-size:9px;letter-spacing:0.18em;margin-top:6px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:24px 0 12px}
+.sec-t{font-size:11px;font-weight:500;letter-spacing:0.18em}
+.sec-a{font-size:10px;letter-spacing:0.1em}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gcard{aspect-ratio:1.35;border-radius:14px;padding:12px;display:flex;flex-direction:column;justify-content:space-between}
+.gname{font-size:11px;letter-spacing:0.06em}
+.gmeta{font-size:8px;letter-spacing:0.1em;margin-top:3px}
+.gnum{font-size:15px;font-weight:200;font-variant-numeric:tabular-nums}
+.gadd{aspect-ratio:1.35;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:200}
+.feed{display:flex;gap:11px;padding:10px 0}
+.dot{width:4px;height:4px;border-radius:50%;margin-top:8px;flex:none}
+.ft{font-size:12px;line-height:1.5;letter-spacing:0.02em}
+.ft b{font-weight:400}
+.ftime{font-size:9.5px;letter-spacing:0.12em;margin-top:3px}
+.nav{flex:none;height:82px;display:flex;align-items:flex-start;padding:14px 6px 0;position:relative}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:9.5px;letter-spacing:0.14em;padding-top:5px}
+.nav-plus{flex:1;display:flex;justify-content:center;position:relative}
+.np-btn{position:absolute;top:-22px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.np-btn span{font-size:24px;font-weight:200;line-height:1;margin-top:-2px}
+.np-lb{font-size:9.5px;letter-spacing:0.14em;margin-top:36px}
+
+/* ===== A 纯黑白 ===== */
+.A{background:#0a0a0a}
+.A .status{color:#8c8c8c} .A .status b{color:#fafafa}
+.A h2.t{color:#fafafa} .A .eyebrow{color:#5f5f5f} .A .sub{color:#7a7a7a}
+.A .maincard{background:linear-gradient(150deg,#1d1d1d,#0d0d0d)}
+.A .mc-name{color:#fafafa} .A .mc-role{color:#9a9a9a} .A .mc-v{color:#fafafa} .A .mc-k{color:#6f6f6f}
+.A .sec-t{color:#e8e8e8} .A .sec-a{color:#5f5f5f}
+.A .gcard{background:#161616}
+.A .gname{color:#fafafa} .A .gmeta{color:#7a7a7a} .A .gnum{color:#fafafa}
+.A .gadd{border:1px dashed #2a2a2a;color:#5f5f5f}
+.A .dot{background:#fafafa}
+.A .ft{color:#9a9a9a} .A .ft b{color:#fafafa} .A .ftime{color:#4f4f4f}
+.A .nav{background:#070707;border-top:1px solid #1a1a1a}
+.A .nav-item{color:#4f4f4f} .A .nav-item.on{color:#fafafa}
+.A .np-btn{background:#fafafa} .A .np-btn span{color:#0a0a0a} .A .np-lb{color:#fafafa}
+
+/* ===== B 墨绿 ===== */
+.B{background:#080b09}
+.B .status{color:#8a9790} .B .status b{color:#c8d4cc}
+.B h2.t{color:#f2f5f2} .B .eyebrow{color:#5c6b62} .B .sub{color:#7a8780}
+.B .maincard{background:linear-gradient(150deg,#16201a,#0a0f0c)}
+.B .mc-name{color:#f2f5f2} .B .mc-role{color:#8fa898} .B .mc-v{color:#f2f5f2} .B .mc-k{color:#63766a}
+.B .sec-t{color:#e6ece8} .B .sec-a{color:#5c6b62}
+.B .gcard{background:#111613}
+.B .gname{color:#f2f5f2} .B .gmeta{color:#7a8780} .B .gnum{color:#f2f5f2}
+.B .gadd{border:1px dashed #243029;color:#5c6b62}
+.B .dot{background:#8fa898}
+.B .ft{color:#8a9790} .B .ft b{color:#f2f5f2} .B .ftime{color:#4a5750}
+.B .nav{background:#060907;border-top:1px solid #16201a}
+.B .nav-item{color:#4a5750} .B .nav-item.on{color:#c8d4cc}
+.B .np-btn{background:#dfe8e1} .B .np-btn span{color:#0a0f0c} .B .np-lb{color:#c8d4cc}
+
+/* ===== C 石墨蓝 ===== */
+.C{background:#09090b}
+.C .status{color:#8b8b92} .C .status b{color:#e8e8ee}
+.C h2.t{color:#fafafc} .C .eyebrow{color:#5c5c66} .C .sub{color:#7a7a86}
+.C .maincard{background:linear-gradient(150deg,#1a1c22,#0b0c0f)}
+.C .mc-name{color:#fafafc} .C .mc-role{color:#9399a8} .C .mc-v{color:#fafafc} .C .mc-k{color:#666b78}
+.C .sec-t{color:#e6e6ec} .C .sec-a{color:#5c5c66}
+.C .gcard{background:#15161a}
+.C .gname{color:#fafafc} .C .gmeta{color:#7a7a86} .C .gnum{color:#fafafc}
+.C .gadd{border:1px dashed #26272e;color:#5c5c66}
+.C .dot{background:#9399a8}
+.C .ft{color:#8b8b92} .C .ft b{color:#fafafc} .C .ftime{color:#4a4a54}
+.C .nav{background:#060608;border-top:1px solid #17181d}
+.C .nav-item{color:#4a4a54} .C .nav-item.on{color:#e8e8ee}
+.C .np-btn{background:#e8e8ee} .C .np-btn span{color:#09090b} .C .np-lb{color:#e8e8ee}
+</style>
+</head>
+<body>
+
+<div class="sheet-head">
+  <h1>配 色 方 向</h1>
+  <p>同一个首页 · 三种高级感 · 共同点：UI 不用彩色，颜色只留给名片本身</p>
+</div>
+
+<div class="row">
+
+<!-- A 纯黑白 -->
+<div class="col">
+  <div class="tone-label" style="color:#fafafa">A · 纯黑白</div>
+  <div class="tone-desc">零色彩。唯一的高级色是无色。名片是画面里唯一的彩色。</div>
+  <div class="phone A">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div style="padding:16px 0 0">
+        <div class="eyebrow">十 一 月 · 第 八 日</div>
+        <h2 class="t">晚上好，叶白</h2>
+        <div class="sub">今天 12 个人认识了你</div>
+      </div>
+      <div class="maincard">
+        <div class="shine"></div>
+        <div style="display:flex;justify-content:space-between;position:relative">
+          <div><div class="mc-name">叶白</div><div class="mc-role">咖啡师 · 白夜咖啡</div></div>
+          <div style="width:36px;height:36px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fafafa">叶</div>
+        </div>
+        <div style="position:relative">
+          <div class="mc-stat">
+            <div><div class="mc-v">109</div><div class="mc-k">打 开</div></div>
+            <div><div class="mc-v">78</div><div class="mc-k">访 客</div></div>
+            <div><div class="mc-v">75%</div><div class="mc-k">点 击 率</div></div>
+          </div>
+          <div style="font-size:8px;letter-spacing:0.2em;color:#5f5f5f;margin-top:14px">6RZ2BJPW9F · 黑金</div>
+        </div>
+      </div>
+      <div class="sec"><div class="sec-t">其 他 名 片</div><div class="sec-a">2 张 ›</div></div>
+      <div class="grid">
+        <div class="gcard" style="background:linear-gradient(150deg,#f2f2f2,#d8d8d8)"><div><div class="gname" style="color:#111">白夜咖啡</div><div class="gmeta" style="color:#666">极简白</div></div><div class="gnum" style="color:#111">62</div></div>
+        <div class="gcard" style="background:linear-gradient(150deg,#15181d,#0b0d10)"><div><div class="gname" style="color:#e8edf2">夜航 AI</div><div class="gmeta" style="color:#6d7a88">深海</div></div><div class="gnum" style="color:#e8edf2">38</div></div>
+        <div class="gadd">＋</div>
+      </div>
+      <div class="sec"><div class="sec-t">最 近 动 态</div><div class="sec-a">全 部 ›</div></div>
+      <div class="feed"><div class="dot"></div><div><div class="ft"><b>一位杭州的朋友</b> 看了你的黑金名片</div><div class="ftime">3 分 钟 前</div></div></div>
+      <div class="feed"><div class="dot"></div><div><div class="ft"><b>上海的访客</b> 拨了你的电话</div><div class="ftime">8 分 钟 前</div></div></div>
+    </div>
+    <div class="nav">
+      <div class="nav-item on"><span>名片</span></div>
+      <div class="nav-item"><span>数据</span></div>
+      <div class="nav-plus"><div class="np-btn"><span>＋</span></div><div class="np-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span></div>
+      <div class="nav-item"><span>我的</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- B 墨绿 -->
+<div class="col">
+  <div class="tone-label" style="color:#c8d4cc">B · 墨绿</div>
+  <div class="tone-desc">Quiet luxury。深绿+米白，像皮具、像书房、像老钱。</div>
+  <div class="phone B">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div style="padding:16px 0 0">
+        <div class="eyebrow">十 一 月 · 第 八 日</div>
+        <h2 class="t">晚上好，叶白</h2>
+        <div class="sub">今天 12 个人认识了你</div>
+      </div>
+      <div class="maincard">
+        <div class="shine"></div>
+        <div style="display:flex;justify-content:space-between;position:relative">
+          <div><div class="mc-name">叶白</div><div class="mc-role">咖啡师 · 白夜咖啡</div></div>
+          <div style="width:36px;height:36px;border-radius:50%;background:#1e2c24;display:flex;align-items:center;justify-content:center;font-size:14px;color:#c8d4cc">叶</div>
+        </div>
+        <div style="position:relative">
+          <div class="mc-stat">
+            <div><div class="mc-v">109</div><div class="mc-k">打 开</div></div>
+            <div><div class="mc-v">78</div><div class="mc-k">访 客</div></div>
+            <div><div class="mc-v">75%</div><div class="mc-k">点 击 率</div></div>
+          </div>
+          <div style="font-size:8px;letter-spacing:0.2em;color:#63766a;margin-top:14px">6RZ2BJPW9F · 黑金</div>
+        </div>
+      </div>
+      <div class="sec"><div class="sec-t">其 他 名 片</div><div class="sec-a">2 张 ›</div></div>
+      <div class="grid">
+        <div class="gcard" style="background:linear-gradient(150deg,#eef1ec,#d5dbd4)"><div><div class="gname" style="color:#1a211c">白夜咖啡</div><div class="gmeta" style="color:#6d7a70">极简白</div></div><div class="gnum" style="color:#1a211c">62</div></div>
+        <div class="gcard" style="background:linear-gradient(150deg,#131a16,#090d0b)"><div><div class="gname" style="color:#dfe8e1">夜航 AI</div><div class="gmeta" style="color:#6d7a70">深海</div></div><div class="gnum" style="color:#dfe8e1">38</div></div>
+        <div class="gadd">＋</div>
+      </div>
+      <div class="sec"><div class="sec-t">最 近 动 态</div><div class="sec-a">全 部 ›</div></div>
+      <div class="feed"><div class="dot"></div><div><div class="ft"><b>一位杭州的朋友</b> 看了你的黑金名片</div><div class="ftime">3 分 钟 前</div></div></div>
+      <div class="feed"><div class="dot"></div><div><div class="ft"><b>上海的访客</b> 拨了你的电话</div><div class="ftime">8 分 钟 前</div></div></div>
+    </div>
+    <div class="nav">
+      <div class="nav-item on"><span>名片</span></div>
+      <div class="nav-item"><span>数据</span></div>
+      <div class="nav-plus"><div class="np-btn"><span>＋</span></div><div class="np-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span></div>
+      <div class="nav-item"><span>我的</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- C 石墨蓝 -->
+<div class="col">
+  <div class="tone-label" style="color:#e8e8ee">C · 石墨蓝</div>
+  <div class="tone-desc">冷灰+蓝调。科技感的高级，像专业设备、像仪器面板。</div>
+  <div class="phone C">
+    <div class="status"><span class="num">9:41</span><b>NFC</b><span class="num">100</span></div>
+    <div class="body">
+      <div style="padding:16px 0 0">
+        <div class="eyebrow">十 一 月 · 第 八 日</div>
+        <h2 class="t">晚上好，叶白</h2>
+        <div class="sub">今天 12 个人认识了你</div>
+      </div>
+      <div class="maincard">
+        <div class="shine"></div>
+        <div style="display:flex;justify-content:space-between;position:relative">
+          <div><div class="mc-name">叶白</div><div class="mc-role">咖啡师 · 白夜咖啡</div></div>
+          <div style="width:36px;height:36px;border-radius:50%;background:#22252c;display:flex;align-items:center;justify-content:center;font-size:14px;color:#e8e8ee">叶</div>
+        </div>
+        <div style="position:relative">
+          <div class="mc-stat">
+            <div><div class="mc-v">109</div><div class="mc-k">打 开</div></div>
+            <div><div class="mc-v">78</div><div class="mc-k">访 客</div></div>
+            <div><div class="mc-v">75%</div><div class="mc-k">点 击 率</div></div>
+          </div>
+          <div style="font-size:8px;letter-spacing:0.2em;color:#666b78;margin-top:14px">6RZ2BJPW9F · 黑金</div>
+        </div>
+      </div>
+      <div class="sec"><div class="sec-t">其 他 名 片</div><div class="sec-a">2 张 ›</div></div>
+      <div class="grid">
+        <div class="gcard" style="background:linear-gradient(150deg,#f0f1f4,#d6d8dd)"><div><div class="gname" style="color:#15161a">白夜咖啡</div><div class="gmeta" style="color:#666b78">极简白</div></div><div class="gnum" style="color:#15161a">62</div></div>
+        <div class="gcard" style="background:linear-gradient(150deg,#141720,#080a0e)"><div><div class="gname" style="color:#e4e7f0">夜航 AI</div><div class="gmeta" style="color:#6a7080">深海</div></div><div class="gnum" style="color:#e4e7f0">38</div></div>
+        <div class="gadd">＋</div>
+      </div>
+      <div class="sec"><div class="sec-t">最 近 动 态</div><div class="sec-a">全 部 ›</div></div>
+      <div class="feed"><div class="dot"></div><div><div class="ft"><b>一位杭州的朋友</b> 看了你的黑金名片</div><div class="ftime">3 分 钟 前</div></div></div>
+      <div class="feed"><div class="dot"></div><div><div class="ft"><b>上海的访客</b> 拨了你的电话</div><div class="ftime">8 分 钟 前</div></div></div>
+    </div>
+    <div class="nav">
+      <div class="nav-item on"><span>名片</span></div>
+      <div class="nav-item"><span>数据</span></div>
+      <div class="nav-plus"><div class="np-btn"><span>＋</span></div><div class="np-lb">新 建</div></div>
+      <div class="nav-item"><span>写卡</span></div>
+      <div class="nav-item"><span>我的</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

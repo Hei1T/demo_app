@@ -1,0 +1,71 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    name: Build unsigned IPA
+    runs-on: macos-14
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.4'
+          channel: stable
+          cache: true
+
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      - name: Get dependencies
+        working-directory: apps/app
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: apps/app
+        run: flutter analyze --no-fatal-infos || true
+
+      - name: Build iOS (no codesign)
+        working-directory: apps/app
+        run: |
+          flutter build ios --release --no-codesign \
+            --dart-define=API_BASE=https://api.example.com
+
+      - name: Package unsigned IPA
+        working-directory: apps/app
+        run: |
+          set -e
+          APP_PATH="build/ios/iphoneos/Runner.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "Runner.app not found"
+            ls -R build/ios | head -50
+            exit 1
+          fi
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          zip -r -q Runner-unsigned.ipa Payload
+          ls -lh Runner-unsigned.ipa
+          shasum -a 256 Runner-unsigned.ipa
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Runner-unsigned-ipa
+          path: apps/app/Runner-unsigned.ipa
+          retention-days: 30
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: apps/app/build/ios/**/*.log
+          if-no-files-found: ignore

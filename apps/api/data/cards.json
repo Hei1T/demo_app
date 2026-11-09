@@ -1,0 +1,16 @@
+{
+  "FPC5YR": {
+    "code": "FPC5YR",
+    "profile": {
+      "name": "夜航",
+      "role": "AI 课程主理人",
+      "org": "夜航 AI",
+      "phone": "13800001111",
+      "email": "hi@nightflight.ai",
+      "addr": "杭州市西湖区文三路 90 号"
+    },
+    "template": "ocean",
+    "createdAt": "2026-11-08T06:45:23.436Z",
+    "updatedAt": "2026-11-08T06:45:23.436Z"
+  }
+}

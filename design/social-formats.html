@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>社交墙形式对比</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050504;color:#f5f2ec;font-family:-apple-system,"PingFang SC",system-ui,sans-serif;padding:40px 28px 80px;-webkit-font-smoothing:antialiased}
+.h{max-width:1500px;margin:0 auto 32px}
+.h h1{font-size:20px;font-weight:300;letter-spacing:3px;margin-bottom:8px}
+.h p{font-size:12px;color:#6b655d}
+.row{display:flex;gap:24px;max-width:1500px;margin:0 auto;flex-wrap:wrap}
+.col{flex:1 1 300px;max-width:370px}
+.lb{font-size:13px;letter-spacing:2px;margin-bottom:4px}
+.ds{font-size:11.5px;color:#6b655d;margin-bottom:14px;line-height:1.6;min-height:34px}
+.panel{
+  background:linear-gradient(160deg,#1a0d08,#0a0503);border-radius:24px;padding:26px 22px;
+  border:1px solid #241208;min-height:340px;display:flex;flex-direction:column;
+}
+.sec-lbl{font-size:10px;letter-spacing:3px;color:#8a7a62;margin-bottom:18px}
+/* A 图标矩阵 */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px 8px}
+.ic{display:flex;flex-direction:column;align-items:center;gap:6px}
+.dot{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
+.ic-nm{font-size:9.5px;color:#9a938a;letter-spacing:0.2px;text-align:center;white-space:nowrap;transform:scale(.95)}
+/* B 大图标横排 */
+.bigrow{display:flex;gap:14px;overflow:hidden;justify-content:space-between}
+.big{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
+.big .dot{width:56px;height:56px;font-size:15px}
+/* C 分组 */
+.grp{margin-bottom:18px}
+.grp-t{font-size:9.5px;letter-spacing:2.4px;color:#6b655d;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);font-size:12.5px;color:#d8d2c8}
+.chip .sdot{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff}
+/* D 列表行 */
+.li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.li:last-child{border-bottom:none}
+.li .dot{width:34px;height:34px;font-size:11px}
+.li-nm{flex:1;font-size:13.5px;color:#d8d2c8}
+.li-arr{color:#5a544c;font-size:14px}
+.foot{margin-top:auto;padding-top:20px;font-size:11px;color:#5a544c;text-align:center;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<div class="h">
+  <h1>社 交 墙 · 四 种 形 式</h1>
+  <p>同一张名片（日落模板）· 12 个平台 · 挑一个你喜欢的</p>
+</div>
+
+<div class="row">
+
+<!-- A 图标矩阵 -->
+<div class="col">
+  <div class="lb" style="color:#f5f2ec">A · 图标矩阵</div>
+  <div class="ds">无文字，纯圆形图标 5 列排开。最干净、最像高端 App。</div>
+  <div class="panel">
+    <div class="sec-lbl">FIND ME · 找到我</div>
+    <div class="grid">
+      <div class="ic"><div class="dot" style="background:#07C160">微</div><div class="ic-nm">微信</div></div>
+      <div class="ic"><div class="dot" style="background:#0A66C2">in</div><div class="ic-nm">领英</div></div>
+      <div class="ic"><div class="dot" style="background:#E4405F">IG</div><div class="ic-nm">Instagram</div></div>
+      <div class="ic"><div class="dot" style="background:#111;border:1px solid #333">X</div><div class="ic-nm">X</div></div>
+      <div class="ic"><div class="dot" style="background:#FE2C55">抖</div><div class="ic-nm">抖音</div></div>
+      <div class="ic"><div class="dot" style="background:#FF2442">红</div><div class="ic-nm">小红书</div></div>
+      <div class="ic"><div class="dot" style="background:#181717;border:1px solid #333">GH</div><div class="ic-nm">GitHub</div></div>
+      <div class="ic"><div class="dot" style="background:#26A5E4">TG</div><div class="ic-nm">Telegram</div></div>
+      <div class="ic"><div class="dot" style="background:#25D366">WA</div><div class="ic-nm">WhatsApp</div></div>
+      <div class="ic"><div class="dot" style="background:#FF0000">YT</div><div class="ic-nm">YouTube</div></div>
+      <div class="ic"><div class="dot" style="background:#00A1D6">B</div><div class="ic-nm">哔哩哔哩</div></div>
+      <div class="ic"><div class="dot" style="background:#1DB954">Sp</div><div class="ic-nm">Spotify</div></div>
+    </div>
+    <div class="foot">↓ 保存到通讯录</div>
+  </div>
+</div>
+
+<!-- B 大图标横排 -->
+<div class="col">
+  <div class="lb" style="color:#f5f2ec">B · 大图标横排</div>
+  <div class="ds">一排 5 个 56px 大圆，可左右滑动。视觉冲击强，手指好点。</div>
+  <div class="panel">
+    <div class="sec-lbl">FIND ME · 找到我</div>
+    <div class="bigrow">
+      <div class="big"><div class="dot" style="background:#07C160">微</div><div class="ic-nm">微信</div></div>
+      <div class="big"><div class="dot" style="background:#0A66C2">in</div><div class="ic-nm">领英</div></div>
+      <div class="big"><div class="dot" style="background:#E4405F">IG</div><div class="ic-nm">IG</div></div>
+      <div class="big"><div class="dot" style="background:#111;border:1px solid #333">X</div><div class="ic-nm">X</div></div>
+      <div class="big"><div class="dot" style="background:#FE2C55">抖</div><div class="ic-nm">抖音</div></div>
+    </div>
+    <div class="bigrow" style="margin-top:22px">
+      <div class="big"><div class="dot" style="background:#FF2442">红</div><div class="ic-nm">小红书</div></div>
+      <div class="big"><div class="dot" style="background:#181717;border:1px solid #333">GH</div><div class="ic-nm">GitHub</div></div>
+      <div class="big"><div class="dot" style="background:#26A5E4">TG</div><div class="ic-nm">Telegram</div></div>
+      <div class="big"><div class="dot" style="background:#25D366">WA</div><div class="ic-nm">WA</div></div>
+      <div class="big"><div class="dot" style="background:#FF0000">YT</div><div class="ic-nm">YouTube</div></div>
+    </div>
+    <div class="foot">↓ 保存到通讯录</div>
+  </div>
+</div>
+
+<!-- C 分组胶囊 -->
+<div class="col">
+  <div class="lb" style="color:#f5f2ec">C · 分组胶囊</div>
+  <div class="ds">国内 / 国际 两组小胶囊。信息最清楚，适合商务场合。</div>
+  <div class="panel">
+    <div class="grp">
+      <div class="grp-t">国 内</div>
+      <div class="chips">
+        <div class="chip"><span class="sdot" style="background:#07C160">微</span>微信</div>
+        <div class="chip"><span class="sdot" style="background:#FE2C55">抖</span>抖音</div>
+        <div class="chip"><span class="sdot" style="background:#FF2442">红</span>小红书</div>
+        <div class="chip"><span class="sdot" style="background:#00A1D6">B</span>哔哩哔哩</div>
+      </div>
+    </div>
+    <div class="grp">
+      <div class="grp-t">国 际</div>
+      <div class="chips">
+        <div class="chip"><span class="sdot" style="background:#0A66C2">in</span>领英</div>
+        <div class="chip"><span class="sdot" style="background:#E4405F">IG</span>Instagram</div>
+        <div class="chip"><span class="sdot" style="background:#111;border:1px solid #333">X</span>X</div>
+        <div class="chip"><span class="sdot" style="background:#26A5E4">TG</span>Telegram</div>
+        <div class="chip"><span class="sdot" style="background:#25D366">WA</span>WhatsApp</div>
+        <div class="chip"><span class="sdot" style="background:#FF0000">YT</span>YouTube</div>
+        <div class="chip"><span class="sdot" style="background:#181717;border:1px solid #333">GH</span>GitHub</div>
+        <div class="chip"><span class="sdot" style="background:#1DB954">Sp</span>Spotify</div>
+      </div>
+    </div>
+    <div class="foot">↓ 保存到通讯录</div>
+  </div>
+</div>
+
+<!-- D 列表行 -->
+<div class="col">
+  <div class="lb" style="color:#f5f2ec">D · 列表行</div>
+  <div class="ds">一行一个平台，带名称和箭头。最清楚但最占空间。</div>
+  <div class="panel">
+    <div class="sec-lbl">FIND ME · 找到我</div>
+    <div class="li"><div class="dot" style="background:#07C160">微</div><div class="li-nm">微信 · yebai_coffee</div><div class="li-arr">›</div></div>
+    <div class="li"><div class="dot" style="background:#0A66C2">in</div><div class="li-nm">LinkedIn</div><div class="li-arr">›</div></div>
+    <div class="li"><div class="dot" style="background:#E4405F">IG</div><div class="li-nm">Instagram</div><div class="li-arr">›</div></div>
+    <div class="li"><div class="dot" style="background:#111;border:1px solid #333">X</div><div class="li-nm">X</div><div class="li-arr">›</div></div>
+    <div class="li"><div class="dot" style="background:#26A5E4">TG</div><div class="li-nm">Telegram</div><div class="li-arr">›</div></div>
+    <div class="li"><div class="dot" style="background:#25D366">WA</div><div class="li-nm">WhatsApp</div><div class="li-arr">›</div></div>
+    <div class="foot">↓ 保存到通讯录</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
